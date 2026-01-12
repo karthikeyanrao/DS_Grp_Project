@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Room Information - RMI Module</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>Hostel Room Information Service</h1>
+            <span class="module-tag">Module 2: Java RMI</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content-wrapper">
+            <!-- Add Room Section -->
+            <section class="card">
+                <h2>Add Room Details</h2>
+                <form id="addRoomForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomNumber">Room Number *</label>
+                            <input type="text" id="roomNumber" required placeholder="e.g., A101">
+                        </div>
+                        <div class="form-group">
+                            <label for="block">Block *</label>
+                            <input type="text" id="block" required placeholder="e.g., A">
+                        </div>
+                        <div class="form-group">
+                            <label for="floor">Floor *</label>
+                            <input type="text" id="floor" required placeholder="e.g., Ground Floor">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="occupants">Occupants (comma-separated) *</label>
+                        <input type="text" id="occupants" required placeholder="e.g., John Doe, Jane Smith">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wardenName">Warden Name *</label>
+                        <input type="text" id="wardenName" required placeholder="e.g., Dr. Rajesh Verma">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="wardenContact">Warden Contact *</label>
+                            <input type="tel" id="wardenContact" required placeholder="e.g., +91-9876543210">
+                        </div>
+                        <div class="form-group">
+                            <label for="wardenEmail">Warden Email *</label>
+                            <input type="email" id="wardenEmail" required placeholder="e.g., warden@hostel.edu">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Room</button>
+                </form>
+            </section>
+
+            <!-- Search Room Section -->
+            <section class="card">
+                <h2>Search Room</h2>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Enter room number (e.g., A101)">
+                    <button id="searchBtn" class="btn btn-primary">Search</button>
+                </div>
+                <div class="action-buttons">
+                    <button id="viewAllBtn" class="btn btn-secondary">View All Rooms</button>
+                    <button id="statsBtn" class="btn btn-secondary">Statistics</button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="card" style="display: none;">
+                <div class="card-header">
+                    <h2 id="resultTitle">Room Details</h2>
+                    <button class="close-btn" onclick="closeResults()">×</button>
+                </div>
+
+                <!-- Room Details -->
+                <div id="roomDetails" style="display: none;">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label">Room Number:</span>
+                            <span class="value" id="displayRoomNumber">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Block:</span>
+                            <span class="value" id="displayBlock">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Floor:</span>
+                            <span class="value" id="displayFloor">-</span>
+                        </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+
+                    <h3>Occupants</h3>
+                    <ul id="occupantsList" class="occupants-list"></ul>
+
+                    <div class="section-divider"></div>
+
+                    <h3>Warden Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label">Name:</span>
+                            <span class="value" id="displayWardenName">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Contact:</span>
+                            <span class="value" id="displayWardenContact">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Email:</span>
+                            <span class="value" id="displayWardenEmail">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Rooms List -->
+                <div id="allRoomsList" style="display: none;">
+                    <div id="roomsGrid" class="rooms-grid"></div>
+                </div>
+
+                <!-- Statistics -->
+                <div id="statsDisplay" style="display: none;">
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <div class="stat-value" id="totalRooms">0</div>
+                            <div class="stat-label">Total Rooms</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value status-active">Active</div>
+                            <div class="stat-label">RMI Status</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorDisplay" style="display: none;">
+                    <div class="error-message">
+                        <p id="errorText">Room not found</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Distributed Systems Lab Project | Java RMI Implementation</p>
+        </div>
+    </footer>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
