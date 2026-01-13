@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student | Complaints</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Submit Complaint</h1>
+
+    <div class="form-card">
+        <form id="complaintForm">
+            <input type="text" id="room" placeholder="Room Number" required>
+
+            
+            <select id="category">
+                <option>Water</option>
+                <option>Electricity</option>
+                <option>Cleanliness</option>
+                <option>Other</option>
+            </select>
+
+            <textarea id="description" placeholder="Complaint description" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <h2 style="margin-top:2rem;">My Complaints (This Session)</h2>
+    <div id="myComplaints" class="notice-grid"></div>
+</div>
+
+<script src="student.js"></script>
+</body>
+</html>
