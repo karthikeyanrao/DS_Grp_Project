@@ -1,0 +1,21 @@
+<button onclick="send('good')">Good</button>
+<button onclick="send('avg')">Average</button>
+<button onclick="send('poor')">Poor</button>
+
+<h3 id="result"></h3>
+
+<script>
+function send(type){
+ fetch("/vote",{
+   method:"POST",
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({type})
+ }).then(r=>r.text()).then(update)
+}
+
+function update(data){
+ let [g,a,p]=data.split(",")
+ document.getElementById("result").innerText=
+   `Good: ${g} | Average: ${a} | Poor: ${p}`
+}
+</script>
