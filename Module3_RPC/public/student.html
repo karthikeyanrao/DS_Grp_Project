@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student - Notices | Hostel System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Hostel Notice Board</h1>
+            <p>Stay updated with the latest news</p>
+        </header>
+
+        <nav>
+            <span class="active-badge">Student View</span>
+            <a href="index.html" class="logout-btn">Logout</a>
+        </nav>
+
+        <style>
+            .active-badge {
+                padding: 0.5rem 1rem;
+                background-color: var(--primary-color);
+                color: #1a1b26;
+                font-weight: 700;
+                border-radius: 0.5rem;
+            }
+
+            .logout-btn {
+                background-color: transparent;
+                border: 1px solid var(--border-color);
+                color: var(--text-secondary);
+            }
+
+            .logout-btn:hover {
+                background-color: #ef4444;
+                color: white;
+                border-color: #ef4444;
+            }
+        </style>
+
+        <main>
+            <div id="noticeContainer" class="notice-grid">
+                <!-- Notices will be loaded here -->
+                <div class="empty-state">Loading notices...</div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        async function loadNotices() {
+            const container = document.getElementById('noticeContainer');
+
+            try {
+                const response = await fetch('/api/notices');
+                const notices = await response.json();
+
+                container.innerHTML = '';
+
+                if (notices.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No notices at the moment.</div>';
+                    return;
+                }
+
+                // Sort by date (newest first) - assuming date string is ISO or sortable, 
+                // but since it's just a string from input date, we might precise sorting logic if format allows.
+                // For now, let's just reverse so newest added (pushed last) is first? 
+                // Or sort by date string (YYYY-MM-DD works for string sort)
+                notices.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                notices.forEach(notice => {
+                    const card = document.createElement('div');
+                    card.className = 'notice-card';
+                    card.innerHTML = `
+                        <div class="notice-date">${formatDate(notice.date)}</div>
+                        <h2 class="notice-title">${escapeHtml(notice.title)}</h2>
+                        <div class="notice-message">${escapeHtml(notice.message)}</div>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Error loading notices:', error);
+                container.innerHTML = '<div class="empty-state">Failed to load notices. Is the server running?</div>';
+            }
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load on start
+        loadNotices();
+    </script>
+</body>
+
+</html>
