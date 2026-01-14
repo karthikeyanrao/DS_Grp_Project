@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Assist - Distributed Systems Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🏢 Hostel Assist</h1>
+                    <p class="subtitle">Distributed Systems Lab Project</p>
+                </div>
+                <nav class="main-nav">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#complaints" class="nav-link">Complaints</a>
+                    <a href="#room-info" class="nav-link">Room Info</a>
+                    <a href="#notices" class="nav-link">Notices</a>
+                    <a href="#p2p-share" class="nav-link">P2P Share</a>
+                    <a href="#mess-feedback" class="nav-link">Mess Feedback</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- HOME SECTION -->
+        <section id="home" class="section hero-section">
+            <div class="container">
+                <h2 class="hero-title">Welcome to Hostel Assist</h2>
+                <p class="hero-description">A comprehensive distributed systems application for hostel management</p>
+
+                <div class="modules-overview">
+                    <div class="overview-card">
+                        <div class="overview-icon">📝</div>
+                        <h3>Complaint Management</h3>
+                        <p>Socket Programming</p>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">🏠</div>
+                        <h3>Room Information</h3>
+                        <p>Java RMI</p>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">📢</div>
+                        <h3>Notice Board</h3>
+                        <p>REST API</p>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">🔄</div>
+                        <h3>Resource Sharing</h3>
+                        <p>Peer-to-Peer</p>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">🍽️</div>
+                        <h3>Mess Feedback</h3>
+                        <p>Shared Memory</p>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3>About This Project</h3>
+                    <p>This integrated application demonstrates five different distributed systems communication models:
+                    </p>
+                    <ul class="info-list">
+                        <li><strong>Socket Programming:</strong> Low-level TCP/IP communication for complaint management
+                        </li>
+                        <li><strong>Java RMI:</strong> Remote method invocation for distributed object access</li>
+                        <li><strong>RPC (REST API):</strong> Stateless HTTP-based communication for notice board</li>
+                        <li><strong>Peer-to-Peer:</strong> Decentralized file sharing without central server</li>
+                        <li><strong>Shared Memory:</strong> Inter-process communication with synchronization</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODULE 1: COMPLAINT MANAGEMENT -->
+        <section id="complaints" class="section module-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>📝 Complaint Management System</h2>
+                    <span class="tech-badge-large">Socket Programming</span>
+                </div>
+
+                <div class="role-tabs">
+                    <button class="tab-btn active" onclick="switchTab('complaints', 'student')">👨‍🎓 Student</button>
+                    <button class="tab-btn" onclick="switchTab('complaints', 'warden')">👨‍💼 Warden</button>
+                </div>
+
+                <!-- Student View -->
+                <div id="complaints-student" class="tab-content active">
+                    <div class="card">
+                        <h3>Submit Complaint</h3>
+                        <form id="complaintForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="m1-roomNumber">Room Number *</label>
+                                    <input type="text" id="m1-roomNumber" required placeholder="e.g., A101">
+                                </div>
+                                <div class="form-group">
+                                    <label for="m1-category">Category *</label>
+                                    <select id="m1-category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="Water">Water</option>
+                                        <option value="Electricity">Electricity</option>
+                                        <option value="Cleanliness">Cleanliness</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m1-description">Description *</label>
+                                <textarea id="m1-description" required rows="4"
+                                    placeholder="Describe your complaint..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Complaint</button>
+                        </form>
+                    </div>
+
+                    <div id="m1-studentStatus" class="status-card" style="display: none;">
+                        <h4>✓ Complaint Status</h4>
+                        <p id="m1-statusMessage"></p>
+                    </div>
+                </div>
+
+                <!-- Warden View -->
+                <div id="complaints-warden" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>All Complaints</h3>
+                            <button class="btn btn-secondary" onclick="loadComplaints()">🔄 Refresh</button>
+                        </div>
+                        <div id="m1-complaintsList" class="complaints-list">
+                            <p class="empty-state">No complaints yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODULE 2: ROOM INFORMATION -->
+        <section id="room-info" class="section module-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>🏠 Room Information Service</h2>
+                    <span class="tech-badge-large">Java RMI</span>
+                </div>
+
+                <div class="card">
+                    <h3>Search Room</h3>
+                    <div class="search-container">
+                        <input type="text" id="m2-searchInput" placeholder="Enter room number (e.g., A101)">
+                        <button class="btn btn-primary" onclick="searchRoom()">🔍 Search</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="viewAllRooms()">📋 View All Rooms</button>
+                        <button class="btn btn-secondary" onclick="showRoomStats()">📊 Statistics</button>
+                    </div>
+                </div>
+
+                <div id="m2-results" class="card" style="display: none;">
+                    <div class="card-header">
+                        <h3 id="m2-resultTitle">Room Details</h3>
+                        <button class="close-btn" onclick="closeRoomResults()">×</button>
+                    </div>
+                    <div id="m2-roomDetails"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODULE 3: NOTICE BOARD -->
+        <section id="notices" class="section module-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>📢 Notice Board System</h2>
+                    <span class="tech-badge-large">REST API</span>
+                </div>
+
+                <div class="role-tabs">
+                    <button class="tab-btn active" onclick="switchTab('notices', 'student')">👨‍🎓 Student</button>
+                    <button class="tab-btn" onclick="switchTab('notices', 'admin')">👨‍💼 Admin</button>
+                </div>
+
+                <!-- Student View -->
+                <div id="notices-student" class="tab-content active">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Hostel Notices</h3>
+                            <button class="btn btn-secondary" onclick="loadNotices()">🔄 Refresh</button>
+                        </div>
+                        <div id="m3-noticesList" class="notices-list">
+                            <p class="empty-state">No notices available</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin View -->
+                <div id="notices-admin" class="tab-content">
+                    <div class="card">
+                        <h3>Add New Notice</h3>
+                        <form id="noticeForm">
+                            <div class="form-group">
+                                <label for="m3-title">Title *</label>
+                                <input type="text" id="m3-title" required placeholder="Notice title">
+                            </div>
+                            <div class="form-group">
+                                <label for="m3-message">Message *</label>
+                                <textarea id="m3-message" required rows="4" placeholder="Notice content..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">📤 Post Notice</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>All Notices</h3>
+                            <button class="btn btn-secondary" onclick="loadNotices()">🔄 Refresh</button>
+                        </div>
+                        <div id="m3-adminNoticesList" class="notices-list">
+                            <p class="empty-state">No notices yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODULE 4: P2P RESOURCE SHARING -->
+        <section id="p2p-share" class="section module-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>🔄 Student Resource Sharing (P2P)</h2>
+                    <span class="tech-badge-large">Peer-to-Peer</span>
+                </div>
+
+                <div class="two-column-layout">
+                    <div class="card">
+                        <h3>My Peer Information</h3>
+                        <div class="peer-info">
+                            <div class="info-item">
+                                <span class="label">Peer ID:</span>
+                                <span class="value" id="m4-peerId">Not Connected</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Status:</span>
+                                <span class="value" id="m4-status">Offline</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="startPeer()">🚀 Start Peer Server</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>Upload Resource</h3>
+                        <form id="uploadForm">
+                            <div class="form-group">
+                                <label for="m4-fileName">File Name *</label>
+                                <input type="text" id="m4-fileName" required
+                                    placeholder="e.g., DataStructures_Notes.pdf">
+                            </div>
+                            <div class="form-group">
+                                <label for="m4-fileDescription">Description</label>
+                                <input type="text" id="m4-fileDescription" placeholder="Brief description">
+                            </div>
+                            <div class="form-group">
+                                <label for="m4-fileInput">Select File</label>
+                                <input type="file" id="m4-fileInput">
+                            </div>
+                            <button type="submit" class="btn btn-primary">📤 Upload to Network</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Available Resources</h3>
+                        <button class="btn btn-secondary" onclick="discoverPeers()">🔍 Discover Peers</button>
+                    </div>
+                    <div id="m4-resourcesList" class="resources-list">
+                        <p class="empty-state">No resources available. Start peer server to see shared files.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODULE 5: MESS FEEDBACK -->
+        <section id="mess-feedback" class="section module-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>🍽️ Mess Feedback Live Counter</h2>
+                    <span class="tech-badge-large">Shared Memory</span>
+                </div>
+
+                <div class="card">
+                    <h3>Submit Your Feedback</h3>
+                    <p>Rate today's mess food quality:</p>
+                    <div class="feedback-buttons">
+                        <button class="feedback-btn good" onclick="submitFeedback('good')">
+                            <div class="feedback-emoji">😊</div>
+                            <div class="feedback-label">Good</div>
+                        </button>
+                        <button class="feedback-btn average" onclick="submitFeedback('average')">
+                            <div class="feedback-emoji">😐</div>
+                            <div class="feedback-label">Average</div>
+                        </button>
+                        <button class="feedback-btn poor" onclick="submitFeedback('poor')">
+                            <div class="feedback-emoji">😞</div>
+                            <div class="feedback-label">Poor</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Live Feedback Results</h3>
+                        <button class="btn btn-secondary" onclick="refreshFeedback()">🔄 Refresh</button>
+                    </div>
+                    <div class="feedback-stats">
+                        <div class="stat-item good">
+                            <div class="stat-icon">😊</div>
+                            <div class="stat-label">Good</div>
+                            <div class="stat-value" id="m5-good">0</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill good" id="m5-good-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item average">
+                            <div class="stat-icon">😐</div>
+                            <div class="stat-label">Average</div>
+                            <div class="stat-value" id="m5-average">0</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill average" id="m5-average-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item poor">
+                            <div class="stat-icon">😞</div>
+                            <div class="stat-label">Poor</div>
+                            <div class="stat-value" id="m5-poor">0</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill poor" id="m5-poor-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total-feedback">
+                        Total Responses: <span id="m5-total">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>Distributed Systems Lab Project | All 5 Modules Integrated</p>
+            <p class="tech-stack">Socket Programming • Java RMI • REST API • P2P • Shared Memory</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
